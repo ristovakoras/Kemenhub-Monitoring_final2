@@ -65,30 +65,18 @@ class DashboardController extends Controller
         return view('device.index');
     }
 
-    public function losarang()
+    public function losarang(Request $request)
     {
-        // $sumber ='https://masak-apa-tomorisakura.vercel.app/api/recipes';
-        // $konten = file_get_contents($sumber);
-        // $data = json_decode($konten, true);
-        // return view('losarang.index', compact('data'));
-        // return view('losarang.index');
 
-        // if (request()->start_date || request()->end_date) {
-        //     $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
-        //     $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
-        //     $datawim = Wim::whereBetween('WeighingDateTime', [$start_date,$end_date])->paginate(10);
-        // } else {
-        //     $datawim = Wim::with('lidar')->paginate(10);
-        // }
+        if ($request->has('search')) {
+            $datawim = DB::table('wim')
+            ->join('lidar', 'wim.id', '=', 'lidar.wim_id')
+            ->select('wim.*', 'LidarLimitHeight', 'LidarLimitWidth','LidarLimitLength','LidarReadingHeight',
+            'LidarReadingWidth','LidarReadingLength','LidarOverHeight','LidarOverWidth','LidarOverLength',
+            'LidarPercentageHeight','LidarPercentageWidth', 'LidarPercentageLength','Weight_wim','Speed',
+            'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image')->where('LicencePlate', 'LIKE','%' .$request->search.'%')->paginate(5);
 
-        // $datawim = DB::table('wim')
-        //     ->join('lidar', 'lidar.id', '=', 'wim.id')
-        //     ->get();
-
-        // $datalidar = lidar::with('wim')->paginate(10);
-
-        // $datawim = Wim::with('lidar')->paginate(10);
-        if (request()->start_date || request()->end_date) {
+        } else if (request()->start_date || request()->end_date) {
         $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
         $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
         $datawim = DB::table('wim')
@@ -96,8 +84,8 @@ class DashboardController extends Controller
                     ->select('wim.*', 'LidarLimitHeight', 'LidarLimitWidth','LidarLimitLength','LidarReadingHeight',
                     'LidarReadingWidth','LidarReadingLength','LidarOverHeight','LidarOverWidth','LidarOverLength',
                     'LidarPercentageHeight','LidarPercentageWidth', 'LidarPercentageLength','Weight_wim','Speed',
-                    'OverWeight','LimitWeight','OverWeight','WeighingDateTime','Image')
-                    ->whereBetween('WeighingDateTime', [$start_date,$end_date])->paginate(10);
+                    'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image')
+                    ->whereBetween('WeighingDateTime', [$start_date,$end_date])->paginate(500);
         } else {
 
         $datawim = DB::table('wim')
@@ -105,24 +93,50 @@ class DashboardController extends Controller
             ->select('wim.*', 'LidarLimitHeight', 'LidarLimitWidth','LidarLimitLength','LidarReadingHeight',
             'LidarReadingWidth','LidarReadingLength','LidarOverHeight','LidarOverWidth','LidarOverLength',
             'LidarPercentageHeight','LidarPercentageWidth', 'LidarPercentageLength','Weight_wim','Speed',
-            'OverWeight','LimitWeight','OverWeight','WeighingDateTime','Image')
+            'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image')
             ->latest()->paginate(10);
         }
+        // if (request()->start_date || request()->end_date) {
+        // $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
+        // $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
+        // $datawim = DB::table('wim')
+        //             ->join('lidar', 'wim.id', '=', 'lidar.wim_id')
+        //             ->select('wim.*', 'LidarLimitHeight', 'LidarLimitWidth','LidarLimitLength','LidarReadingHeight',
+        //             'LidarReadingWidth','LidarReadingLength','LidarOverHeight','LidarOverWidth','LidarOverLength',
+        //             'LidarPercentageHeight','LidarPercentageWidth', 'LidarPercentageLength','Weight_wim','Speed',
+        //             'OverWeight','LimitWeight','OverWeight','WeighingDateTime','Image')
+        //             ->whereBetween('WeighingDateTime', [$start_date,$end_date])->paginate(10);
+        // } else {
+
+        // $datawim = DB::table('wim')
+        //     ->join('lidar', 'wim.id', '=', 'lidar.wim_id')
+        //     ->select('wim.*', 'LidarLimitHeight', 'LidarLimitWidth','LidarLimitLength','LidarReadingHeight',
+        //     'LidarReadingWidth','LidarReadingLength','LidarOverHeight','LidarOverWidth','LidarOverLength',
+        //     'LidarPercentageHeight','LidarPercentageWidth', 'LidarPercentageLength','Weight_wim','Speed',
+        //     'OverWeight','LimitWeight','OverWeight','WeighingDateTime','Image')
+        //     ->latest()->paginate(10);
+        // }
 
         return view('losarang.losarang', compact('datawim'));
 
 
     }
 
-    public function kulwaru()
+    public function kulwaru(Request $request)
     {
-        // $sumber ='https://masak-apa-tomorisakura.vercel.app/api/recipes';
-        // $konten = file_get_contents($sumber);
-        // $data = json_decode($konten, true);
-        // return view('kulwaru.index', compact('data'));
-        // return view('kulwaru.index');
-        $data = Wim::latest()->paginate(10);
-        return view('kulwaru.kulwaru', compact('data'));
+
+        if ($request->has('search')) {
+            $datawim = Wim::latest()->where('LicencePlate', 'LIKE','%' .$request->search.'%')->paginate(5);
+
+        } else if (request()->start_date || request()->end_date) {
+        $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
+        $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
+        $datawim = Wim::latest()->whereBetween('WeighingDateTime', [$start_date,$end_date])->paginate(100);
+        } else {
+
+        $datawim = Wim::latest()->paginate(10);
+        }
+        return view('kulwaru.kulwaru', compact('datawim'));
     }
 
 }

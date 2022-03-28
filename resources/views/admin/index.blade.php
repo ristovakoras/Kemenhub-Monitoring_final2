@@ -43,6 +43,31 @@
             <!--end::Body-->
         </div>
     </div>
+    <div class="col-xl-6">
+        <div class="card card-xl-stretch mb-5 mb-xl-8" style="background-color: #242263; ">
+             <!--begin::Header-->
+             <div class="card-header border-0 pt-5">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bolder fs-3 mb-1 text-light" >UPPKB KULWARU</span>
+                </h3>
+                <!--begin::Toolbar-->
+                {{-- <div class="card-toolbar" data-kt-buttons="true">
+                    <a class="btn btn-sm btn-color-muted btn-active btn-active-primary active px-4 me-1" id="kt_charts_widget_2_year_btn">Day</a>
+                    <a class="btn btn-sm btn-color-muted btn-active btn-active-primary px-4 me-1" id="kt_charts_widget_2_month_btn">Week</a>
+                    <a class="btn btn-sm btn-color-muted btn-active btn-active-primary px-4" id="kt_charts_widget_2_week_btn">Month</a>
+                </div> --}}
+                <!--end::Toolbar-->
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body">
+                <!--begin::Chart-->
+                <div id="chartNilai2" style="height: 350px" ></div>
+                <!--end::Chart-->
+            </div>
+            <!--end::Body-->
+        </div>
+    </div>
 </div>
 
 

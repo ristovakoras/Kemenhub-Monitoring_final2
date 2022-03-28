@@ -196,7 +196,7 @@
 								<!--begin::Page title-->
 								<div class="page-title d-flex flex-column me-5">
 									<!--begin::Title-->
-									<h1 class="d-flex flex-column text-light fw-bolder fs-3 mb-0">KEMENTRIAN PERHUBUNGAN - DITJEN PERHUBUNGAN DARAT</h1>
+									<h1 class="d-flex flex-column text-light fw-bolder fs-3 mb-0">KEMENTERIAN PERHUBUNGAN - DITJEN PERHUBUNGAN DARAT</h1>
 									<!--end::Title-->
 								</div>
 								<!--end::Page title-->
@@ -260,8 +260,8 @@
 						<div class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-between">
 							<!--begin::Copyright-->
 							<div class="text-dark order-2 order-md-1">
-								<span class="text-muted fw-bold me-1">2021 ©</span>
-								<a href="https://keenthemes.com" target="_blank" class="text-light text-hover-primary">WIM MONITORING SYSTEM</a>
+								<span class="text-muted fw-bold me-1"><span id="tanggalwaktu"></span> &copy;</span>
+								<a href="{{ url('/dashboard') }}" target="_blank" class="text-light text-hover-primary">WIM MONITORING SYSTEM</a>
 							</div>
 							<!--end::Copyright-->
 						</div>
@@ -376,6 +376,71 @@
                                 yaxis: { lines: { show: !0 } },
                             },
                         }).render();
+                })(),
+                (function () {
+                    var e = document.getElementById("chartNilai2"),
+                        t = parseInt(KTUtil.css(e, "height")),
+                        a = KTUtil.getCssVariableValue("--bs-gray-100"),
+                        o = KTUtil.getCssVariableValue("--bs-gray-100"),
+                        s = KTUtil.getCssVariableValue("--bs-warning"),
+                        r = KTUtil.getCssVariableValue("--bs-gray-100");
+                    e &&
+                        new ApexCharts(e, {
+                            series: [
+                                {
+                                    name: "Jumlah",
+                                    data: [{!! json_encode($datawim) !!}, {!! json_encode($datalidar) !!}, {!! json_encode($datawim2) !!}, {!! json_encode($datalengkap) !!}]
+                                },
+                            ],
+                            chart: {
+                                fontFamily: "inherit",
+                                type: "bar",
+                                height: t,
+                                toolbar: { show: !1 },
+                            },
+                            plotOptions: {
+                                bar: {
+                                    horizontal: !1,
+                                    columnWidth: ["30%"],
+                                    borderRadius: 4,
+                                },
+                            },
+                            legend: { show: !1 },
+                            dataLabels: { enabled: !1 },
+                            stroke: { show: !0, width: 2, colors: ["transparent"] },
+                            xaxis: {
+                                categories: [
+                                    "Over Weight",
+                                    "Over Dimensi",
+                                    "Does Place Exit",
+                                    "T. Pelanggaran",
+                                ],
+                                axisBorder: { show: !1 },
+                                axisTicks: { show: !1 },
+                                labels: { style: { colors: a, fontSize: "12px" } },
+                            },
+                            yaxis: {
+                                labels: { style: { colors: a, fontSize: "12px" } },
+                            },
+                            fill: { opacity: 1 },
+                            states: {
+                                normal: { filter: { type: "none", value: 0 } },
+                                hover: { filter: { type: "none", value: 0 } },
+                                active: {
+                                    allowMultipleDataPointsSelection: !1,
+                                    filter: { type: "none", value: 0 },
+                                },
+                            },
+                            tooltip: {
+                                style: { fontSize: "12px" },
+                            },
+                            colors: [s, r],
+                            grid: {
+                                borderColor: o,
+                                strokeDashArray: 4,
+                                yaxis: { lines: { show: !0 } },
+                            },
+                        }).render();
                 })();
                 },
                 };
@@ -384,6 +449,8 @@
                 KTWidgets.init();
                 });
 
+                var dt = new Date();
+                document.getElementById("tanggalwaktu").innerHTML = (dt.getFullYear());
         </script>
 
 	</body>
