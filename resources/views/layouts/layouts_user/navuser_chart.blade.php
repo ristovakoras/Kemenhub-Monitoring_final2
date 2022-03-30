@@ -70,7 +70,7 @@
 									</div>
 								</div>
 								<div class="menu-item">
-									<a class="menu-link {{ 'dashboard' == request()->path() ? 'active' : '' }}" href="{{ url('/dashboard') }}">
+									<a class="menu-link {{ 'dashboarduser' == request()->path() ? 'active' : '' }}" href="{{ url('/dashboarduser') }}">
 										<span class="menu-icon">
 											<!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
 											<span class="svg-icon svg-icon-2">
@@ -112,7 +112,7 @@
                                     <div class="menu-sub menu-sub-accordion menu-active-bg">
                                         <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                                             <div class="menu-item">
-                                                <a class="menu-link {{ 'losarang' == request()->path() ? 'active' : '' }}" href="{{ url('losarang') }}">
+                                                <a class="menu-link {{ 'losaranguser' == request()->path() ? 'active' : '' }}" href="{{ url('losaranguser') }}">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
@@ -120,7 +120,7 @@
                                                 </a>
                                             </div>
                                             <div class="menu-item">
-                                                <a class="menu-link {{ 'kulwaru' == request()->path() ? 'active' : '' }}" href="{{ url('kulwaru') }}">
+                                                <a class="menu-link {{ 'kulwaruuser' == request()->path() ? 'active' : '' }}" href="{{ url('kulwaruuser') }}">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
@@ -146,7 +146,7 @@
 						<!--begin::Brand-->
 						<div class="header-brand" style="background-image: linear-gradient(to bottom right, #242263, #302e74);">
 							<!--begin::Logo-->
-							<a href="{{ url('/dashboard') }}">
+							<a href="{{ url('/dashboarduser') }}">
 								{{-- <img alt="Logo" src="assets/media/logos/logo-1-dark.svg" class="h-25px h-lg-25px" /> --}}
                                 <h5 class="h-25px h-lg-15px" style="color: white">WIM Monitoring System</h5>
 
@@ -205,6 +205,17 @@
 									<!--begin::Action wrapper-->
 									<div class="d-flex align-items-center">
 										<!--begin::Select-->
+										{{-- <select class="form-select form-select-sm form-select-solid w-120px w-xxl-125px" data-control="select2" data-placeholder="{{ Auth::user()->name }}" data-hide-search="true">
+											<option value="">{{ Auth::user()->name }}</option>
+											<option value="3" href="{{ route('logout') }}">{{ __('Logout') }}</option>
+										</select> --}}
+
+
+                                         {{-- <li class="nav-item dropdown">
+                                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                                {{ Auth::user()->name }} <span class="caret"></span>
+                                            </a> --}}
+
 
                                             <div aria-labelledby="navbarDropdown" >
                                                 <a class="dropdown-item" href="{{ route('logout') }}"

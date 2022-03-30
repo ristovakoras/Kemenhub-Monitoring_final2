@@ -41,9 +41,18 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/kulwaru', [DashboardController::class, 'kulwaru'])->name('kulwaru');
 });
 
+
 Route::group(['middleware' => ['role:user']], function () {
-    Route::get('/dashboarduser', [DashboardController::class, 'dashuser'])->name('dashboarduser');
+    Route::get('/dashboarduser', [DashboardController::class, 'dashboarduser'])->name('dashboarduser');
 });
+Route::group(['middleware' => ['role:user']], function () {
+    Route::get('/losaranguser', [DashboardController::class, 'losaranguser'])->name('losaranguser');
+});
+Route::group(['middleware' => ['role:user']], function () {
+    Route::get('/kulwaruuser', [DashboardController::class, 'kulwaruuser'])->name('kulwaruuser');
+});
+
+
 
 
 // Route::middleware('role:admin')->get('/dashboard', function() {

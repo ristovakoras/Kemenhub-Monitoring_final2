@@ -134,7 +134,7 @@
 						<!--begin::Brand-->
 						<div class="header-brand" style="background-image: linear-gradient(to bottom right, #242263, #302e74);">
 							<!--begin::Logo-->
-							<a href="../../demo8/dist/index.html">
+							<a href="{{ url('/dashboard') }}">
 								{{-- <img alt="Logo" src="assets/media/logos/logo-1-dark.svg" class="h-25px h-lg-25px" /> --}}
                                 <h5 class="h-25px h-lg-15px" style="color: white">WIM Monitoring System</h5>
 
@@ -193,23 +193,13 @@
 									<!--begin::Action wrapper-->
 									<div class="d-flex align-items-center">
 										<!--begin::Select-->
-										{{-- <select class="form-select form-select-sm form-select-solid w-120px w-xxl-125px" data-control="select2" data-placeholder="{{ Auth::user()->name }}" data-hide-search="true">
-											<option value="">{{ Auth::user()->name }}</option>
-											<option value="3" href="{{ route('logout') }}">{{ __('Logout') }}</option>
-										</select> --}}
-
-
-                                         {{-- <li class="nav-item dropdown">
-                                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                                {{ Auth::user()->name }} <span class="caret"></span>
-                                            </a> --}}
 
 
                                             <div aria-labelledby="navbarDropdown" >
                                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                                    onclick="event.preventDefault();
                                                                  document.getElementById('logout-form').submit();" style="color: white;">
-                                                    {{ __('Logout') }}
+                                                    {{ __('Logout') }} - {{ Auth::user()->name }}
                                                 </a>
 
 

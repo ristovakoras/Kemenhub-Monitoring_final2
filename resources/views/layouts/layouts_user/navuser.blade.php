@@ -14,25 +14,13 @@
 		<meta property="og:site_name" content="Keenthemes | Metronic" />
 		<link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
 		<link rel="shortcut icon" href="{{ asset('assets/img/logo_kemenhub.png') }}" />
-
-        {{-- Link Bootstrap --}}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        {{-- End Bootstrap --}}
-
-        <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css"/>
-        <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
-
         <!--begin::Fonts-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
 		<!--end::Fonts-->
 		<!--begin::Page Vendor Stylesheets(used by this page)-->
-		<link href="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<!--end::Page Vendor Stylesheets-->
-
-        <script src="{{ asset('js/app.js') }}" defer></script>
-
-
-        <!--begin::Global Stylesheets Bundle(used by all pages)-->
+		<!--begin::Global Stylesheets Bundle(used by all pages)-->
 		<link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<!--end::Global Stylesheets Bundle-->
@@ -70,7 +58,7 @@
 									</div>
 								</div>
 								<div class="menu-item">
-									<a class="menu-link {{ 'dashboard' == request()->path() ? 'active' : '' }}" href="{{ url('/dashboard') }}">
+									<a class="menu-link {{ 'dashboarduser' == request()->path() ? 'active' : '' }}" href="{{ url('/dashboarduser') }}">
 										<span class="menu-icon">
 											<!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
 											<span class="svg-icon svg-icon-2">
@@ -112,7 +100,7 @@
                                     <div class="menu-sub menu-sub-accordion menu-active-bg">
                                         <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                                             <div class="menu-item">
-                                                <a class="menu-link {{ 'losarang' == request()->path() ? 'active' : '' }}" href="{{ url('losarang') }}">
+                                                <a class="menu-link {{ 'losaranguser' == request()->path() ? 'active' : '' }}" href="{{ url('losaranguser') }}">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
@@ -120,7 +108,7 @@
                                                 </a>
                                             </div>
                                             <div class="menu-item">
-                                                <a class="menu-link {{ 'kulwaru' == request()->path() ? 'active' : '' }}" href="{{ url('kulwaru') }}">
+                                                <a class="menu-link {{ 'kulwaruuser' == request()->path() ? 'active' : '' }}" href="{{ url('kulwaruuser') }}">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
@@ -146,7 +134,7 @@
 						<!--begin::Brand-->
 						<div class="header-brand" style="background-image: linear-gradient(to bottom right, #242263, #302e74);">
 							<!--begin::Logo-->
-							<a href="{{ url('/dashboard') }}">
+							<a href="{{ url('/dashboarduser') }}">
 								{{-- <img alt="Logo" src="assets/media/logos/logo-1-dark.svg" class="h-25px h-lg-25px" /> --}}
                                 <h5 class="h-25px h-lg-15px" style="color: white">WIM Monitoring System</h5>
 
@@ -205,6 +193,17 @@
 									<!--begin::Action wrapper-->
 									<div class="d-flex align-items-center">
 										<!--begin::Select-->
+										{{-- <select class="form-select form-select-sm form-select-solid w-120px w-xxl-125px" data-control="select2" data-placeholder="{{ Auth::user()->name }}" data-hide-search="true">
+											<option value="">{{ Auth::user()->name }}</option>
+											<option value="3" href="{{ route('logout') }}">{{ __('Logout') }}</option>
+										</select> --}}
+
+
+                                         {{-- <li class="nav-item dropdown">
+                                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                                {{ Auth::user()->name }} <span class="caret"></span>
+                                            </a> --}}
+
 
                                             <div aria-labelledby="navbarDropdown" >
                                                 <a class="dropdown-item" href="{{ route('logout') }}"
@@ -250,7 +249,7 @@
 							<!--begin::Copyright-->
 							<div class="text-dark order-2 order-md-1">
 								<span class="text-muted fw-bold me-1"><span id="tanggalwaktu"></span> &copy;</span>
-								<a href="{{ url('/dashboard') }}" target="_blank" class="text-light text-hover-primary">WIM MONITORING SYSTEM</a>
+								<a href="{{ url('/dashboarduser') }}" target="_blank" class="text-light text-hover-primary">WIM MONITORING SYSTEM</a>
 							</div>
 							<!--end::Copyright-->
 						</div>
@@ -263,18 +262,9 @@
 			<!--end::Page-->
 		</div>
 		<!--end::Root-->
-		<!--begin::Scrolltop-->
-		<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
-			<!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
-			<span class="svg-icon">
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-					<rect opacity="0.5" x="13" y="6" width="13" height="2" rx="1" transform="rotate(90 13 6)" fill="black" />
-					<path d="M12.5657 8.56569L16.75 12.75C17.1642 13.1642 17.8358 13.1642 18.25 12.75C18.6642 12.3358 18.6642 11.6642 18.25 11.25L12.7071 5.70711C12.3166 5.31658 11.6834 5.31658 11.2929 5.70711L5.75 11.25C5.33579 11.6642 5.33579 12.3358 5.75 12.75C6.16421 13.1642 6.83579 13.1642 7.25 12.75L11.4343 8.56569C11.7467 8.25327 12.2533 8.25327 12.5657 8.56569Z" fill="black" />
-				</svg>
-			</span>
-			<!--end::Svg Icon-->
-		</div>
-		<!--end::Scrolltop-->
+
+
+
 		<!--end::Main-->
 		<script>var hostUrl = "assets/";</script>
 		<!--begin::Javascript-->
@@ -283,165 +273,47 @@
 		<script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Page Vendors Javascript(used by this page)-->
-		<script src="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
+		<script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 		<!--end::Page Vendors Javascript-->
+		<!--begin::Page Custom Javascript(used by this page)-->
+		<script src="{{ asset('assets/js/custom/pages/projects/project/project.js') }}"></script>
+		<script src="{{ asset('assets/js/custom/modals/users-search.js') }}"></script>
+		<script src="{{ asset('assets/js/custom/modals/new-target.js') }}"></script>
 		<script src="{{ asset('assets/js/custom/widgets.js') }}"></script>
 		<script src="{{ asset('assets/js/custom/apps/chat/chat.js') }}"></script>
 		<script src="{{ asset('assets/js/custom/modals/create-app.js') }}"></script>
 		<script src="{{ asset('assets/js/custom/modals/upgrade-plan.js') }}"></script>
 		<!--end::Page Custom Javascript-->
-
-        {{-- Start High Chart JS --}}
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-
-        <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css"/>
-        <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
+		<!--end::Javascript-->
 
         <script>
             "use strict";
-                var KTWidgets = {
-                init: function () {
-                (function () {
-                    var e = document.getElementById("chartNilai"),
-                        t = parseInt(KTUtil.css(e, "height")),
-                        a = KTUtil.getCssVariableValue("--bs-gray-100"),
-                        o = KTUtil.getCssVariableValue("--bs-gray-100"),
-                        s = KTUtil.getCssVariableValue("--bs-warning"),
-                        r = KTUtil.getCssVariableValue("--bs-gray-100");
-                    e &&
-                        new ApexCharts(e, {
-                            series: [
-                                {
-                                    name: "Jumlah",
-                                    data: [{!! json_encode($datawim) !!}, {!! json_encode($datalidar) !!}, {!! json_encode($datawim2) !!}, {!! json_encode($datalengkap) !!}]
-                                },
-                            ],
-                            chart: {
-                                fontFamily: "inherit",
-                                type: "bar",
-                                height: t,
-                                toolbar: { show: !1 },
-                            },
-                            plotOptions: {
-                                bar: {
-                                    horizontal: !1,
-                                    columnWidth: ["30%"],
-                                    borderRadius: 4,
-                                },
-                            },
-                            legend: { show: !1 },
-                            dataLabels: { enabled: !1 },
-                            stroke: { show: !0, width: 2, colors: ["transparent"] },
-                            xaxis: {
-                                categories: [
-                                    "Over Weight",
-                                    "Over Dimensi",
-                                    "Does Place Exit",
-                                    "T. Pelanggaran",
-                                ],
-                                axisBorder: { show: !1 },
-                                axisTicks: { show: !1 },
-                                labels: { style: { colors: a, fontSize: "12px" } },
-                            },
-                            yaxis: {
-                                labels: { style: { colors: a, fontSize: "12px" } },
-                            },
-                            fill: { opacity: 1 },
-                            states: {
-                                normal: { filter: { type: "none", value: 0 } },
-                                hover: { filter: { type: "none", value: 0 } },
-                                active: {
-                                    allowMultipleDataPointsSelection: !1,
-                                    filter: { type: "none", value: 0 },
-                                },
-                            },
-                            tooltip: {
-                                style: { fontSize: "12px" },
-                            },
-                            colors: [s, r],
-                            grid: {
-                                borderColor: o,
-                                strokeDashArray: 4,
-                                yaxis: { lines: { show: !0 } },
-                            },
-                        }).render();
-                })(),
-                (function () {
-                    var e = document.getElementById("chartNilai2"),
-                        t = parseInt(KTUtil.css(e, "height")),
-                        a = KTUtil.getCssVariableValue("--bs-gray-100"),
-                        o = KTUtil.getCssVariableValue("--bs-gray-100"),
-                        s = KTUtil.getCssVariableValue("--bs-warning"),
-                        r = KTUtil.getCssVariableValue("--bs-gray-100");
-                    e &&
-                        new ApexCharts(e, {
-                            series: [
-                                {
-                                    name: "Jumlah",
-                                    data: [{!! json_encode($datawim) !!}, {!! json_encode($datalidar) !!}, {!! json_encode($datawim2) !!}, {!! json_encode($datalengkap) !!}]
-                                },
-                            ],
-                            chart: {
-                                fontFamily: "inherit",
-                                type: "bar",
-                                height: t,
-                                toolbar: { show: !1 },
-                            },
-                            plotOptions: {
-                                bar: {
-                                    horizontal: !1,
-                                    columnWidth: ["30%"],
-                                    borderRadius: 4,
-                                },
-                            },
-                            legend: { show: !1 },
-                            dataLabels: { enabled: !1 },
-                            stroke: { show: !0, width: 2, colors: ["transparent"] },
-                            xaxis: {
-                                categories: [
-                                    "Over Weight",
-                                    "Over Dimensi",
-                                    "Does Place Exit",
-                                    "T. Pelanggaran",
-                                ],
-                                axisBorder: { show: !1 },
-                                axisTicks: { show: !1 },
-                                labels: { style: { colors: a, fontSize: "12px" } },
-                            },
-                            yaxis: {
-                                labels: { style: { colors: a, fontSize: "12px" } },
-                            },
-                            fill: { opacity: 1 },
-                            states: {
-                                normal: { filter: { type: "none", value: 0 } },
-                                hover: { filter: { type: "none", value: 0 } },
-                                active: {
-                                    allowMultipleDataPointsSelection: !1,
-                                    filter: { type: "none", value: 0 },
-                                },
-                            },
-                            tooltip: {
-                                style: { fontSize: "12px" },
-                            },
-                            colors: [s, r],
-                            grid: {
-                                borderColor: o,
-                                strokeDashArray: 4,
-                                yaxis: { lines: { show: !0 } },
-                            },
-                        }).render();
-                })();
-                },
-                };
-                "undefined" != typeof module && (module.exports = KTWidgets),
+
+                $("#kt_daterangepicker_3").daterangepicker({
+                        singleDatePicker: true,
+                        showDropdowns: true,
+                        minYear: 1901,
+                        maxYear: parseInt(moment().format("YYYY"),10)
+                    }
+                );
+
+                $("#kt_daterangepicker_4").daterangepicker({
+                        singleDatePicker: true,
+                        showDropdowns: true,
+                        minYear: 1901,
+                        maxYear: parseInt(moment().format("YYYY"),10)
+                    }
+                );
+
+                // On document ready
                 KTUtil.onDOMContentLoaded(function () {
-                KTWidgets.init();
+                    KTDatatablesServerSide.init();
                 });
 
                 var dt = new Date();
                 document.getElementById("tanggalwaktu").innerHTML = (dt.getFullYear());
+
+
+
         </script>
 
-	</body>
-	<!--end::Body-->
-</html>
