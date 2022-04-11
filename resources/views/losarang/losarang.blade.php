@@ -85,7 +85,14 @@
                     </form>
 
                     <form action="{{ url('losarang') }}" method="GET">
-                        <button  utton type="submit" href="#" class="btn btn-primary mx-3">Refresh</button>
+                        <button type="submit" href="#" class="btn btn-primary mx-3" id="kt_button_1">
+                            <span class="indicator-label">
+                                Refresh
+                            </span>
+                            <span class="indicator-progress">
+                                Mohon tunggu... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
                     </form>
 
                 </div>
@@ -96,7 +103,7 @@
         </div>
         <!--end::Card header-->
 
-        <hr style="background: #ffff">
+        <div class="separator separator-dashed border-light my-5"></div>
 
         <!--begin::Body-->
         <div class="card-body py-3" >
@@ -116,6 +123,7 @@
                             <th rowspan="2" class="min-w-100px">Plat Nomor</th>
                             <th colspan="5" class="mx-4">Lidar</th>
                             <th colspan="4">WIM</th>
+                            <th rowspan="2" class="min-w-250px">Axle</th>
                             {{-- <th rowspan="2" class="min-w-125px">Foto Lidar</th> --}}
                             <th rowspan="2" class="min-w-125px">Foto Kendaraan</th>
                             {{-- <th rowspan="2" class="min-w-125px">Foto Plat Nomor</th> --}}
@@ -124,12 +132,12 @@
                             <th class="min-w-90px"></th>
                             <th class="min-w-80px">Standar</th>
                             <th class="min-w-80px">Pengukuran</th>
-                            <th class="min-w-80px">Deviasi</th>
+                            <th class="min-w-80px">Kelebihan</th>
                             <th class="min-w-80px">Persen</th>
                             <th class="min-w-20px" style="background-color: #302e74;"></th>
                             <th class="min-w-80px">Berat</th>
                             <th class="min-w-80px">JBI</th>
-                            <th class="min-w-80px">Kecepatan</th>
+                            <th class="min-w-100px">Kecepatan</th>
                         </tr>
                     </thead>
                     <!--end::Table head-->
@@ -150,7 +158,13 @@
                             <td rowspan="4">
                                 <div class="d-flex justify-content-center text-center">
                                     {{-- <p>{{ $lidar->wim->WeighingDateTime??'' }}</p> --}}
-                                    <p>{{ $wim->LicencePlate }}</p>
+                                    <p>
+                                        @if($wim->LicencePlate == '-')
+                                        <img src="{{ asset('image/2_axle.png') }}" width="60">
+                                        @else
+                                        {{ $wim->LicencePlate }}
+                                    @endif
+                                </p>
                                 </div>
                             </td>
                             <th class="fw-bolder text-muted text-center" style="vertical-align: middle; background-color: #302e74; ">
@@ -160,17 +174,17 @@
                             </th>
                             <td>
                                 <div class="d-flex justify-content-center">
-                                    <p>{{ $wim->LidarLimitLength }} m</p>
+                                    <p>{{ str_replace('.',',',round(($wim->LidarLimitLength)/1000,2)) }} m</p>
                                 </div>
                             </td>
                             <td>
                                 <div class="d-flex justify-content-center">
-                                    <p>{{ number_format($wim->LidarReadingLength) }} m</p>
+                                    <p>{{ str_replace('.',',',round(($wim->LidarReadingLength)/1000,2)) }} m</p>
                                 </div>
                             </td>
                             <td>
                                 <div class="d-flex justify-content-center">
-                                    <p>{{ number_format($wim->LidarOverLength) }} m</p>
+                                    <p>{{ str_replace('.',',',round(($wim->LidarOverLength)/1000,2)) }} m</p>
                                 </div>
                             </td>
                             <td>
@@ -184,7 +198,7 @@
                             </td>
                             <td>
                                 <div class="d-flex justify-content-center">
-                                    <p>{{ number_format($wim->Weight_wim) }} Kg</p>
+                                    <p>{{ str_replace('.',',',round(($wim->Weight_wim)/10,2)) }} Kg</p>
                                 </div>
                             </td>
                             <td>
@@ -195,6 +209,38 @@
                             <td>
                                 <div class="d-flex justify-content-center">
                                     <p>{{ $wim->Speed }} Km/j</p>
+                                </div>
+                            </td>
+                            <td style="color: white;">
+                                <div class="d-flex justify-content-center text-center">
+                                    <p>
+                                        @if($wim->AxleWeight_5 > '0')
+                                        {{ str_replace('.',',',round(($wim->AxleWeight_1)/1000,2)) }} -
+                                        {{ str_replace('.',',',round(($wim->AxleWeight_2)/1000,2)) }} -
+                                        {{ str_replace('.',',',round(($wim->AxleWeight_3)/1000,2)) }} -
+                                        {{ str_replace('.',',',round(($wim->AxleWeight_4)/1000,2)) }} -
+                                        {{ str_replace('.',',',round(($wim->AxleWeight_5)/1000,2)) }}
+                                    </p>
+                                    <p>
+                                        @elseif($wim->AxleWeight_4 > '0')
+                                        {{ str_replace('.',',',round(($wim->AxleWeight_1)/1000,2)) }} -
+                                        {{ str_replace('.',',',round(($wim->AxleWeight_2)/1000,2)) }} -
+                                        {{ str_replace('.',',',round(($wim->AxleWeight_3)/1000,2)) }} -
+                                        {{ str_replace('.',',',round(($wim->AxleWeight_4)/1000,2)) }}
+                                    </p>
+                                    <p>
+                                        @elseif($wim->AxleWeight_3 > '0')
+                                        {{ str_replace('.',',',round(($wim->AxleWeight_1)/1000,2)) }} -
+                                        {{ str_replace('.',',',round(($wim->AxleWeight_2)/1000,2)) }} -
+                                        {{ str_replace('.',',',round(($wim->AxleWeight_3)/1000,2)) }}
+                                    </p>
+                                    <p>
+                                        @else
+                                        {{ str_replace('.',',',round(($wim->AxleWeight_1)/1000,2)) }} -
+                                        {{ str_replace('.',',',round(($wim->AxleWeight_2)/1000,2)) }}
+                                    </p>
+                                    @endif
+                                    {{-- <p>{{ $wim->AxleWeight_1 }}</p> --}}
                                 </div>
                             </td>
 
@@ -231,17 +277,17 @@
                             </th>
                             <th>
                                 <div class="d-flex justify-content-center">
-                                    <p>{{ $wim->LidarLimitWidth }} m</p>
+                                    <p>{{ str_replace('.',',',round(($wim->LidarLimitWidth)/1000,2)) }} m</p>
                                 </div>
                             </th>
                             <th>
                                 <div class="d-flex justify-content-center">
-                                    <p>{{ number_format($wim->LidarReadingWidth) }} m</p>
+                                    <p>{{ str_replace('.',',',round(($wim->LidarReadingWidth)/1000,2)) }} m</p>
                                 </div>
                             </th>
                             <th>
                                 <div class="d-flex justify-content-center">
-                                    <p>{{ number_format($wim->LidarOverWidth) }} m</p>
+                                    <p>{{ str_replace('.',',',round(($wim->LidarOverWidth)/1000,2)) }} m</p>
                                 </div>
                             </th>
                             <th>
@@ -255,7 +301,7 @@
                             </td>
                             <th class="fw-bolder text-muted text-center min-w-80px" style="vertical-align: middle; background-color: #302e74; ">
                                 <div class="d-flex justify-content-center">
-                                    <p>Deviasi</p>
+                                    <p>Kelebihan</p>
                                 </div>
                             </th>
                             <th class="fw-bolder text-muted text-center min-w-80px" style="vertical-align: middle; background-color: #302e74; ">
@@ -285,6 +331,28 @@
 
                                 </div>
                             </td>
+                            <td style="color: white;">
+                                <div class="d-flex justify-content-center">
+                                    <p>
+                                        @if(($wim->AxleWeight_5) > 0)
+                                        <img src="{{ asset('image/5_axle.png') }}" width="180">
+                                    </p>
+                                    <p>
+                                        @elseif(($wim->AxleWeight_4) > 0)
+                                        <img src="{{ asset('image/4_axle.png') }}" width="140">
+                                    </p>
+                                    <p>
+                                        @elseif(($wim->AxleWeight_3) > 0)
+                                        <img src="{{ asset('image/3_axle.png') }}" width="110">
+                                    </p>
+                                    <p>
+                                        @else
+                                        <img src="{{ asset('image/2_axle.png') }}" width="60">
+                                    </p>
+                                    @endif
+                                    {{-- <p>{{ $wim->AxleWeight_1 }}</p> --}}
+                                </div>
+                            </td>
                         </tr>
 
                         <tr class="">
@@ -295,17 +363,17 @@
                             </th>
                             <th>
                                 <div class="d-flex justify-content-center">
-                                    <p>{{ $wim->LidarLimitHeight }} m</p>
+                                    <p>{{ str_replace('.',',',round(($wim->LidarLimitHeight)/1000,2)) }} m</p>
                                 </div>
                             </th>
                             <th>
                                 <div class="d-flex justify-content-center">
-                                    <p>{{ number_format($wim->LidarReadingHeight) }} m</p>
+                                    <p>{{ str_replace('.',',',round(($wim->LidarReadingHeight)/1000,2)) }} m</p>
                                 </div>
                             </th>
                             <th>
                                 <div class="d-flex justify-content-center">
-                                    <p>{{ number_format($wim->LidarOverHeight) }} m</p>
+                                    <p>{{ str_replace('.',',',round(($wim->LidarOverHeight)/1000,2)) }} m</p>
                                 </div>
                             </th>
                             <th>
@@ -327,6 +395,35 @@
                                     <p>{{ number_format($wim->OverPercentage) }} %</p>
                                 </div>
                             </td>
+                            <td style="color: white;">
+                                <div class="d-flex justify-content-center text-center">
+                                    <p>
+                                        @if($wim->AxleWeight_5 > '0')
+                                        {{ $wim->Distance_1 }}  -
+                                        {{ $wim->Distance_2 }}  -
+                                        {{ $wim->Distance_3 }}  -
+                                        {{ $wim->Distance_4 }}
+                                    </p>
+                                    <p>
+                                        @elseif($wim->AxleWeight_4 > '0')
+                                        {{ $wim->Distance_1 }}  -
+                                        {{ $wim->Distance_2 }}  -
+                                        {{ $wim->Distance_3 }}
+                                    </p>
+                                    <p>
+                                        @elseif($wim->AxleWeight_3 > '0')
+                                        {{ $wim->Distance_1 }}  -
+                                        {{ $wim->Distance_2 }}
+                                    </p>
+                                    <p>
+                                        @else
+                                        {{ $wim->Distance_1 }}
+                                    </p>
+                                    @endif
+                                    {{-- <p>{{ $wim->AxleWeight_1 }}</p> --}}
+                                </div>
+                            </td>
+
                         </tr>
 
                     </tbody>
@@ -337,7 +434,7 @@
             </div>
             <br>
             <div class="pull-right">
-            {{ $datawim->links() }}
+            {{ $datawim->onEachSide(3)->links() }}
             </div>
             <br>
             <!--end::Table container-->

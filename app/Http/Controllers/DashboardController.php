@@ -32,8 +32,8 @@ class DashboardController extends Controller
     {
 
         $datawim = DB::table('wim','wim.IsWeightOver')->where('IsWeightOver','>',0)->count();
-        $datawim2 = DB::table('wim','wim.DoesLicencePlateExist')->where('DoesLicencePlateExist','>',0)->count();
         $datalidar = DB::table('lidar','lidar.IsDimensionOver')->where('IsDimensionOver','>',0)->count();
+        $datawim2 = DB::table('wim','wim.DoesLicencePlateExist')->where('DoesLicencePlateExist','=',0)->count();
         $datalengkap = $datawim + $datawim2 + $datalidar;
 
         return view('admin.index', compact('datawim','datalidar', 'datawim2','datalengkap'));
@@ -57,30 +57,40 @@ class DashboardController extends Controller
         if ($request->has('search')) {
             $datawim = DB::table('wim')
             ->join('lidar', 'wim.id', '=', 'lidar.wim_id')
+            ->join('axle_weights', 'wim.id', '=', 'axle_weights.wim_id')
+            ->join('axle_spacings', 'wim.id', '=', 'axle_spacings.wim_id')
             ->select('wim.*', 'LidarLimitHeight', 'LidarLimitWidth','LidarLimitLength','LidarReadingHeight',
             'LidarReadingWidth','LidarReadingLength','LidarOverHeight','LidarOverWidth','LidarOverLength',
             'LidarPercentageHeight','LidarPercentageWidth', 'LidarPercentageLength','Weight_wim','Speed',
-            'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image')->where('LicencePlate', 'LIKE','%' .$request->search.'%')->paginate(5);
+            'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image','AxleWeight_1',
+            'AxleWeight_2','AxleWeight_3','AxleWeight_4','AxleWeight_5','Distance_1','Distance_2','Distance_3','Distance_4')
+            ->where('LicencePlate', 'LIKE','%' .$request->search.'%')->paginate(5);
 
         } else if (request()->start_date || request()->end_date) {
         $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
         $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
         $datawim = DB::table('wim')
                     ->join('lidar', 'wim.id', '=', 'lidar.wim_id')
+                    ->join('axle_weights', 'wim.id', '=', 'axle_weights.wim_id')
+                    ->join('axle_spacings', 'wim.id', '=', 'axle_spacings.wim_id')
                     ->select('wim.*', 'LidarLimitHeight', 'LidarLimitWidth','LidarLimitLength','LidarReadingHeight',
                     'LidarReadingWidth','LidarReadingLength','LidarOverHeight','LidarOverWidth','LidarOverLength',
                     'LidarPercentageHeight','LidarPercentageWidth', 'LidarPercentageLength','Weight_wim','Speed',
-                    'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image')
-                    ->whereBetween('WeighingDateTime', [$start_date,$end_date])->paginate(500);
+                    'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image','AxleWeight_1',
+                    'AxleWeight_2','AxleWeight_3','AxleWeight_4','AxleWeight_5','Distance_1','Distance_2','Distance_3','Distance_4')
+                    ->whereBetween('WeighingDateTime', [$start_date,$end_date])->paginate(10)->withQueryString();
         } else {
 
         $datawim = DB::table('wim')
             ->join('lidar', 'wim.id', '=', 'lidar.wim_id')
+            ->join('axle_weights', 'wim.id', '=', 'axle_weights.wim_id')
+            ->join('axle_spacings', 'wim.id', '=', 'axle_spacings.wim_id')
             ->select('wim.*', 'LidarLimitHeight', 'LidarLimitWidth','LidarLimitLength','LidarReadingHeight',
             'LidarReadingWidth','LidarReadingLength','LidarOverHeight','LidarOverWidth','LidarOverLength',
             'LidarPercentageHeight','LidarPercentageWidth', 'LidarPercentageLength','Weight_wim','Speed',
-            'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image')
-            ->latest()->paginate(10);
+            'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image','AxleWeight_1',
+            'AxleWeight_2','AxleWeight_3','AxleWeight_4','AxleWeight_5','Distance_1','Distance_2','Distance_3','Distance_4')
+            ->latest()->paginate(10)->withQueryString();
         }
 
         return view('losarang.losarang', compact('datawim'));
@@ -124,29 +134,39 @@ class DashboardController extends Controller
         if ($request->has('search')) {
             $datawim = DB::table('wim')
             ->join('lidar', 'wim.id', '=', 'lidar.wim_id')
+            ->join('axle_weights', 'wim.id', '=', 'axle_weights.wim_id')
+            ->join('axle_spacings', 'wim.id', '=', 'axle_spacings.wim_id')
             ->select('wim.*', 'LidarLimitHeight', 'LidarLimitWidth','LidarLimitLength','LidarReadingHeight',
             'LidarReadingWidth','LidarReadingLength','LidarOverHeight','LidarOverWidth','LidarOverLength',
             'LidarPercentageHeight','LidarPercentageWidth', 'LidarPercentageLength','Weight_wim','Speed',
-            'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image')->where('LicencePlate', 'LIKE','%' .$request->search.'%')->paginate(5);
+            'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image','AxleWeight_1',
+            'AxleWeight_2','AxleWeight_3','AxleWeight_4','AxleWeight_5','Distance_1','Distance_2','Distance_3','Distance_4')
+            ->where('LicencePlate', 'LIKE','%' .$request->search.'%')->paginate(5);
 
         } else if (request()->start_date || request()->end_date) {
         $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
         $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
         $datawim = DB::table('wim')
                     ->join('lidar', 'wim.id', '=', 'lidar.wim_id')
+                    ->join('axle_weights', 'wim.id', '=', 'axle_weights.wim_id')
+                    ->join('axle_spacings', 'wim.id', '=', 'axle_spacings.wim_id')
                     ->select('wim.*', 'LidarLimitHeight', 'LidarLimitWidth','LidarLimitLength','LidarReadingHeight',
                     'LidarReadingWidth','LidarReadingLength','LidarOverHeight','LidarOverWidth','LidarOverLength',
                     'LidarPercentageHeight','LidarPercentageWidth', 'LidarPercentageLength','Weight_wim','Speed',
-                    'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image')
+                    'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image','AxleWeight_1',
+                    'AxleWeight_2','AxleWeight_3','AxleWeight_4','AxleWeight_5','Distance_1','Distance_2','Distance_3','Distance_4')
                     ->whereBetween('WeighingDateTime', [$start_date,$end_date])->paginate(500);
         } else {
 
         $datawim = DB::table('wim')
             ->join('lidar', 'wim.id', '=', 'lidar.wim_id')
+            ->join('axle_weights', 'wim.id', '=', 'axle_weights.wim_id')
+            ->join('axle_spacings', 'wim.id', '=', 'axle_spacings.wim_id')
             ->select('wim.*', 'LidarLimitHeight', 'LidarLimitWidth','LidarLimitLength','LidarReadingHeight',
             'LidarReadingWidth','LidarReadingLength','LidarOverHeight','LidarOverWidth','LidarOverLength',
             'LidarPercentageHeight','LidarPercentageWidth', 'LidarPercentageLength','Weight_wim','Speed',
-            'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image')
+            'OverWeight','LimitWeight','OverWeight','WeighingDateTime','LicencePlate','Image','AxleWeight_1',
+            'AxleWeight_2','AxleWeight_3','AxleWeight_4','AxleWeight_5','Distance_1','Distance_2','Distance_3','Distance_4')
             ->latest()->paginate(10);
         }
 
